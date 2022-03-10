@@ -1,17 +1,19 @@
 databases:
-- name: kozmik-community-db
+- name: discourse-db
   plan: starter
+  region: frankfurt
 services:
 - type: web
-  name: kozmik-community
+  name: discourse-web
   env: docker
   plan: starter plus
+  region: frankfurt
   dockerfilePath: ./web/v2.6.3/Dockerfile
   dockerContext: ./web/v2.6.3
   autoDeploy: false
   healthCheckPath: /srv/status
   disk:
-    name: kozmik-community-data
+    name: discourse-data
     mountPath: /var/www/discourse/public/uploads
     sizeGB: 12
   envVars:
@@ -35,23 +37,23 @@ services:
     sync: false # set this if you have a GeoLite/GeoIP license key
   - key: DISCOURSE_DB_HOST
     fromDatabase:
-      name: kozmik-community-db
+      name: discourse-db
       property: host
   - key: DISCOURSE_DB_PORT
     fromDatabase:
-      name: kozmik-community-db
+      name: discourse-db
       property: port
   - key: DISCOURSE_DB_USERNAME
     fromDatabase:
-      name: kozmik-community-db
+      name: discourse-db
       property: user
   - key: DISCOURSE_DB_PASSWORD
     fromDatabase:
-      name: kozmik-community-db
+      name: discourse-db
       property: password
   - key: DISCOURSE_DB_NAME
     fromDatabase:
-      name: kozmik-community-db
+      name: discourse-db
       property: database
   - key: DISCOURSE_REDIS_HOST
     value: localhost
